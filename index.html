@@ -1,0 +1,46 @@
+<!doctype html>
+<html>
+<head>
+<title>Instant Message Chat</title>
+<!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<!-- bootstrap CDN -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+<!-- index.html's CCS -->
+<link rel="stylesheet" type="text/css" href="css/index.css">
+</head>
+ <body>
+    <header class="text-center">
+    	<img src="img/chat_icon.png" style="height: 20px; width: 20px;">
+    	Chat
+    </header>
+    <div class="container-fluid">
+    	<ul id="messages"></ul>
+    	<form action="">
+    	  <div class="row">
+    	    <div class="col-10"><input id="m" autocomplete="off" /></div>
+    	    <div class="col-2"><button>Send</button></div>
+    	  </div>
+    	</form>
+	</div>
+  <!-- script -->
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+  <script>
+  	// Prompt for setting a username
+  	var username = prompt("Please enter your name", "Harry Potter");
+  	
+    $(function () {
+      var socket = io();
+      $('form').submit(function(){
+        socket.emit('chat message', username + " : " +$('#m').val());
+        return false;
+      });
+      socket.on('chat message', function(msg){
+        $('#messages').append($('<li>').text(msg));
+      });
+    });
+  </script>
+</body>
+</html>
